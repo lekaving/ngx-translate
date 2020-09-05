@@ -2,13 +2,13 @@
   <div class="some">
     <h1>App Component - {{ 'TITLE.APP' | translate }}</h1>
 
-    <h2>Current language - {{ currentLanguage }}</h2>
+    <h2>Current language - {{ currentLanguage | async }}</h2>
 
     <h3>Count of renders App - {{ render() }}</h3>
 
     <button (click)="change()">Change language</button>
 
-    <app-test></app-test>
+<!--    <app-test></app-test>-->
   </div>
   <div class="some">
     <a routerLink="/some" routerLinkActive="active">some</a>

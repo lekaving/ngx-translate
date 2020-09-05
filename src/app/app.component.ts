@@ -9,6 +9,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { BaseRender } from './base';
 import { DynamicComponent } from './dynamic/dynamic.component';
+import { Store } from './state/state';
 
 @Directive({
   selector: '[dynamic]',
@@ -27,21 +28,25 @@ export class DynamicDirective {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent extends BaseRender {
-  currentLanguage = 'en'
+  currentLanguage = this.store.currentLanguage$;
   someForToggle = false;
 
   @ViewChild(DynamicDirective, {read: ViewContainerRef}) dynamic: ViewContainerRef;
 
   constructor(
     private translateService: TranslateService,
-    private componentFactoryResolver: ComponentFactoryResolver
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private store: Store
   ) {
     super();
+    store.currentLanguage$.subscribe((res: string) => {
+      debugger
+      this.translateService.use(res);
+    })
   }
 
   change() {
-    this.currentLanguage = this.currentLanguage === 'en' ? 'ru' : 'en'
-    this.translateService.use(this.currentLanguage);
+    this.store.dispatch({type:'change'});
   }
 
   toggleComponent() {

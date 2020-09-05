@@ -1,8 +1,14 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SomeComponent } from './some/some.component';
+
+function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/dictionaries/some/', '.json');
+}
 
 const routes: Routes = [
   {
@@ -17,7 +23,14 @@ const routes: Routes = [
   declarations: [SomeComponent],
   imports: [
     CommonModule,
-    TranslateModule.forChild(),
+    TranslateModule.forChild({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }, isolate: true
+    }),
     RouterModule.forChild(routes),
   ]
 })
