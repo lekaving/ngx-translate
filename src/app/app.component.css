@@ -1,0 +1,11 @@
+.app {
+  border: 2px red solid;
+  padding: 10px;
+  display: flex;
+}
+
+.some {
+  border: 2px purple dotted;
+  padding: 10px;
+  margin-left: 20px;
+}
